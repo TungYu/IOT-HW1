@@ -7,9 +7,9 @@ int Pin = 2; //analog pin 2
 int Val = 0; //初始 感測值
 
 //connect
-String SID = "SYSLAB";
-String PWD = "syslababc123";
-String IP = "140.120.14.231";
+String SID = "wifiName";
+String PWD = "wifiPass";
+String IP = "myIP";
 String file = "receive_sql.php";
 
 String str = "Hello"; //http 回覆狀態
@@ -88,7 +88,7 @@ void uploadData()
   // TCP connection
   String cmd = "AT+CIPSTART=\"TCP\",\"";
   cmd += IP; //host
-  cmd += "\",20082";
+  cmd += "\",80";   // Port, defult 80
   esp8266.println(cmd);
   Serial.println(cmd);
   if(esp8266.find("Error")){
