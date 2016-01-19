@@ -14,8 +14,12 @@ Use Arduino concole to control LED
 ## HW2-3.ino
 BT connection simple test 
 
+## HW6 hightchart+php+mapAPI
+Access database and show in hightchart and googlemap
+
 ## HW7 wifi+php
 Build the Arduino wifi and database connection 
+
 
 
 
