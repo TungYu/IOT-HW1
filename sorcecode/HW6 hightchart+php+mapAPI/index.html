@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+
+
+
+    function initMap() {
+
+      var address1 = [ '中興大學','八仙洞','三仙台'  ];
+      map = new google.maps.Map(document.getElementById('map'), {
+        //center: {lat: 24.122073, lng: 120.673764},
+        zoom: 16
+      });
+
+       
+      getLocations();
+
+    }
+
+    function getLocations () {
+        var address = [];
+
+        $.ajax(
+              {
+                //url:"database.php?action=getlocation",
+                url:"database.php",
+                data:"action=getLocation&location=",
+                dataType:"json",
+                success:function(response) {
+                //* show in console
+                //console.log(response);
+                  var geocoder = new google.maps.Geocoder();
+                  for (var i = 0; i<response.length; i++) {
+                    //addressq.push(response[i].location); 
+                    console.log(response[i]);
+                    address[i] = response[i].location;
+                    myGeocodeAddress(geocoder,map,address[i]);
+                  };
+                  
+                }
+        });
+
+
+    }
+
+    function myGeocodeAddress(geocoder, resultsMap, address) {
+      //var address = document.getElementById('address').value;
+      geocoder.geocode({'address': address}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          resultsMap.setCenter( results[0].geometry.location);
+          var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location,
+              title:address
+          });
+          // * click marker to do..
+          marker.addListener('click', function() {
+            window.open("highchart.html?"+this.title);
+          });
+
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
+
+      
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmoklBo_gFn2c4W41GUfuK-NJ2onFGbdc&callback=initMap"
+        async defer></script>
+  </body>
+</html>
